@@ -1,6 +1,6 @@
 ## Machine learning random ideas
 
-Place to drop new ideas that I came up with while practicing data science and machine learning.
+Place to drop new ideas that I came up with while practicing data science and machine learning. 
 
 [My Index page for all repositories.](https://github.com/zxfsheep/Index/blob/master/README.md)
 
