@@ -1,6 +1,9 @@
 ## Machine learning random ideas
+
 Place to drop new ideas that I came up with while practicing data science and machine learning.
+
 [My Index page for all repositories.](https://github.com/zxfsheep/Index/blob/master/README.md)
+
 ---
 ### 1. Simple way to find a good cross validation split
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One seemingly minute issue during cross validation is how to choose the random split. One can choose the lucky number as random seed, or a bunch of numbers. I found a simple trick to quantatively choose a decent split.
