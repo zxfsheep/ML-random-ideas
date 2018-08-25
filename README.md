@@ -1,6 +1,6 @@
 ## Machine learning random ideas
 
-Place to drop new ideas that I came up with while practicing data science and machine learning. 
+Place to drop new ideas that I came up with while practicing data science and machine learning. Some of them are linked to Jupyter notebooks with more details and implementation.
 
 [My Index page for all repositories.](https://github.com/zxfsheep/Index/blob/master/README.md)
 
@@ -13,3 +13,15 @@ Place to drop new ideas that I came up with while practicing data science and ma
    
 #### 3. Ranking encoding
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A common technique to deal with categorical feature is one-hot encoding. However, this has some drawbacks in practice. For example, this creates a lot of sparse features if the number of categories is large, which can confuse the machine learning models. Another popular encoding is mean encoding, i.e. encode a category by its target mean. This however can still cause potential trouble, as categories with the same or very close target mean can be mixed together, but we still want to differentiate them as they might have very different interactions with other features. I decided to encode all categorical features by their ranking of target mean, which is also a very nice application of pandas.
+
+#### 4. Feature elimination
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Very often after initial feature engineering, for example using [the trick above](https://github.com/zxfsheep/ML-random-ideas/blob/master/README.md#2-dealing-with-fragmented-and-nonuniform-time-series-data), I might get too many features, more than desired. There are at least two types of unwanted features:
+  * features that never seem useful;
+  * features that seems useful sometimes, but it might be overfitting to the training data.
+  
+Since most machine learning models can also output the feature importances in various ways, we can utilize those information to eliminate some features, which both speeds up future trainings and also avoids overfitting. 
+
+Initially I just remove features with lowest average importance, which correspond to the first type. It turns out this does not help that much except speeding up training, since models such as gradient boosting trees will automatically focus on useful features. The second type of unwanted features have bigger impact on prediction quality. To reduce overfitting, one idea that I learned from Kaggle is to randomly permute the labels and look at how the feature importances change. Ones that do not change much are probably noises that cause overfitting. However it is difficult to use in practice, as a lot of permutations are needed to make meaningful conclusions. When each training takes a long time, this is very wasteful. These extra trainings are otherwise completely useless since the labels are incorrect.
+
+In practice, I came up with following selection scheme: examine the feature importances across the folds in cross validation. Instead of mean importance, look at minimum (and possibly variance) of importance. In addition to features with low mean importance, I also remove features that have low (say 0) min importance, even if they have higher mean importance, because this indicates that they might be overfitting to some folds. This scheme works better when the training dataset is large, and we can take a larger number of folds to eliminate more overfitting features.
+
