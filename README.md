@@ -16,7 +16,7 @@ Place to drop new ideas that I came up with while practicing data science and ma
   * features that never seem useful;
   * features that seems useful sometimes, but it might be overfitting to the training data.
   
-Since most machine learning models can also output the feature importances in various ways, we can utilize those information to eliminate some features, which both speeds up future trainings and also avoids overfitting. 
+There are some generic pre-training techniques to reduce the number of features, such as PCA, removing features with high correlations, low variance, or low correlation with target value. Since most machine learning models can also output the feature importances in various ways, we can utilize those information to eliminate some features, which both speeds up future trainings and also avoids overfitting.
 
 Initially I just remove features with lowest average importance, which correspond to the first type. It turns out this does not help that much except speeding up training, since models such as gradient boosting trees will automatically focus on useful features. The second type of unwanted features have bigger impact on prediction quality. To reduce overfitting, one idea that I learned from Kaggle is to **randomly permute the labels** and look at how the feature importances change. Ones that do not change much are probably noises that cause overfitting. However it is difficult to use in practice, as a lot of permutations are needed to make meaningful conclusions. When each training takes a long time, this is very wasteful. These extra trainings are otherwise completely useless since the labels are incorrect.
 
